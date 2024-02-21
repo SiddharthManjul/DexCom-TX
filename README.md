@@ -11,3 +11,6 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
+# Dapp Development on BSC using Hardhat
+
+Link to Web: https://docs.bnbchain.org/docs/hardhat-new/
