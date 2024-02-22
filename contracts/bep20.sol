@@ -1,34 +1,43 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
+// Interface IBEP20
 
-contract Lock {
-    uint public unlockTime;
-    address payable public owner;
+interface IBEP20 {
+    function totalSupply() external view returns (uint256);
 
-    event Withdrawal(uint amount, uint when);
+    function decimals() external view returns (uint8);
 
-    constructor(uint _unlockTime) payable {
-        require(
-            block.timestamp < _unlockTime,
-            "Unlock time should be in the future"
-        );
+    function symbol() external view returns (string memory);
 
-        unlockTime = _unlockTime;
-        owner = payable(msg.sender);
-    }
+    function name() external view returns (string memory);
 
-    function withdraw() public {
-        // Uncomment this line, and the import of "hardhat/console.sol", to print a log in your terminal
-        // console.log("Unlock time is %o and block timestamp is %o", unlockTime, block.timestamp);
+    function getOwner() external view returns (address);
 
-        require(block.timestamp >= unlockTime, "You can't withdraw yet");
-        require(msg.sender == owner, "You aren't the owner");
+    function balanceOf(address account) external view returns (uint256);
 
-        emit Withdrawal(address(this).balance, block.timestamp);
+    function transfer(
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
-        owner.transfer(address(this).balance);
-    }
+    function allowance(
+        address _owner,
+        address spender
+    ) external view returns (uint256);
+
+    function approve(address spender, uint256 amount) external returns (bool);
+
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 }
